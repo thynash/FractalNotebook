@@ -1,0 +1,87 @@
+# Python virtual environment
+venv/
+.venv/
+env/
+virtualenv/
+venv.bak/
+.env
+
+# Python bytecode and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are created by PyInstaller
+#  in a top-level directory.
+#  In case you create out-of-tree builds
+#  and want to keep files organised, you can
+#  move them into a dedicated directory.
+#  Then you can add that directory to your gitignore.
+#  For example, if you create builds in 'build/pyinstaller',
+#  you can add 'build/pyinstaller' to your gitignore.
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+#   For pyenv users, ignore the specific Python version file
+.python-version
+
+# Linters
+.pylintrc
+
+# IDE / Editor specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Generated images from your fractal script
+fractal_images/
+
