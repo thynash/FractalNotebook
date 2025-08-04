@@ -25,7 +25,7 @@ def generate_julia_set(c, xmin, xmax, ymin, ymax, width, height, max_iter=256):
 # Generate and save the Julia set image
 c = complex(-0.8, 0.156)
 julia_img = generate_julia_set(c, -2.0, 2.0, -2.0, 2.0, 800, 800)
-plt.imshow(julia_img, cmap='cool', extent=(-2, 2, -2, 2))
+plt.imshow(julia_img, cmap='coolwarm', extent=(-2, 2, -2, 2))
 plt.colorbar()
 plt.title('Julia Set')
 plt.savefig(os.path.join(output_dir, 'Julia.png'))
