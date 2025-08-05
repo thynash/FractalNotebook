@@ -1,10 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
-import os
 
-# Create an output directory for the images
-output_dir = '../Fractal_Shapes'
-# --- Mandelbrot Set ---
 def mandelbrot(c, max_iter):
     z = 0
     for i in range(max_iter):
@@ -23,11 +18,13 @@ def generate_mandelbrot_set(xmin, xmax, ymin, ymax, width, height, max_iter=256)
             mandelbrot_image[j, i] = mandelbrot(c, max_iter)
     return mandelbrot_image
 
-# Generate and save the Mandelbrot set image
-mandelbrot_img = generate_mandelbrot_set(-2.0, 1.0, -1.5, 1.5, 800, 600)
-plt.imshow(mandelbrot_img, cmap='hot', extent=(-2, 1, -1.5, 1.5))
-plt.colorbar()
-plt.title('Mandelbrot Set')
-plt.savefig(os.path.join(output_dir, 'Mandelbrot.png'))
-plt.close()
+mandelbrot_description = """
+### Mandelbrot Set
+
+The Mandelbrot set is a famous fractal in mathematics, defined by the set of complex numbers c for which the sequence z_(n+1) = z_n^2 + c (starting with z_0 = 0) does not tend toward infinity, no matter how many times the process is repeated.
+
+Its boundary forms one of the most intricate and beautiful patterns in mathematics, demonstrating infinite complexity and self-similarity at every scale. By adjusting the number of iterations, you can explore more or less detail in its structure.
+
+Use the slider below to control the maximum iterations in the visualization and discover fascinating shapes in the Mandelbrot set!
+"""
 
