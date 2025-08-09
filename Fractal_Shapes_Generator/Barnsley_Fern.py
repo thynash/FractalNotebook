@@ -1,14 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-from tqdm import tqdm
 
-output_dir = "../Fractal_Shapes/Barnsley_fern"
-
-def barnsley_fern(n=10000):
+def generate_barnsley_fern(n_points=50000):
     x = y = 0
     xs, ys = [], []
-    for _ in range(n):
+    for _ in range(n_points):
         r = np.random.random()
         if r < 0.01:
             x, y = 0, 0.16*y
@@ -20,18 +16,9 @@ def barnsley_fern(n=10000):
             x, y = -0.15*x + 0.28*y, 0.26*x + 0.24*y + 0.44
         xs.append(x)
         ys.append(y)
-    return xs, ys
-
-if __name__ == "__main__":
-    os.makedirs(output_dir, exist_ok=True)
-    for mag in tqdm(range(1, 11), desc="Barnsley Fern"):
-        n_points = mag * 10000
-        x, y = barnsley_fern(n=n_points)
-        plt.figure(figsize=(7,10))
-        plt.scatter(x, y, s=0.1, color='green')
-        plt.axis('off')
-        plt.title(f'Barnsley Fern ({n_points} points)')
-        plt.tight_layout()
-        plt.savefig(os.path.join(output_dir, f'barnsley_fern_points_{n_points}.png'), bbox_inches='tight', pad_inches=0.1, dpi=150)
-        plt.close()
+    fig, ax = plt.subplots(figsize=(7, 10))
+    ax.scatter(xs, ys, s=0.1, color='green')
+    ax.axis('off')
+    plt.tight_layout()
+    return fig
 
