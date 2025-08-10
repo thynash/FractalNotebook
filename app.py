@@ -147,29 +147,47 @@ with center_col:
 
     fig, ax = plt.subplots(figsize=(7, 4), dpi=100)
 
-    # Dynamic generator dispatcher
-    img = None
     if selection == "Mandelbrot Set":
-        xmin, xmax, ymin, ymax = zoom_bounds(params["center_x"], params["center_y"], 3.0, ASPECT, params["zoom"])
-        img = fractals[selection]["generator"](xmin, xmax, ymin, ymax, RECT_WIDTH, RECT_HEIGHT, params["max_iter"])
+        xmin, xmax, ymin, ymax = zoom_bounds(
+            params["center_x"], params["center_y"], 3.0, ASPECT, params["zoom"]
+        )
+        img = fractals[selection]["generator"](
+            xmin, xmax, ymin, ymax, RECT_WIDTH, RECT_HEIGHT, params["max_iter"]
+        )
         ax.imshow(img, cmap='hot', extent=(xmin, xmax, ymin, ymax))
         ax.axis('off')
+
     elif selection == "Julia Set":
-        xmin, xmax, ymin, ymax = zoom_bounds(params["center_x"], params["center_y"], 4.0, ASPECT, params["zoom"])
-        img = fractals[selection]["generator"](complex(params["c_real"], params["c_imag"]), xmin, xmax, ymin, ymax, RECT_WIDTH, RECT_HEIGHT, params["max_iter"])
+        xmin, xmax, ymin, ymax = zoom_bounds(
+            params["center_x"], params["center_y"], 4.0, ASPECT, params["zoom"]
+        )
+        img = fractals[selection]["generator"](
+            complex(params["c_real"], params["c_imag"]),
+            xmin, xmax, ymin, ymax, RECT_WIDTH, RECT_HEIGHT, params["max_iter"]
+        )
         ax.imshow(img, cmap='cool', extent=(xmin, xmax, ymin, ymax))
         ax.axis('off')
+
     elif selection == "Barnsley Fern":
+        fig, ax = plt.subplots(figsize=(7, 10), dpi=100)
         x, y = fractals[selection]["generator"](params["n_points"])
         ax.scatter(x, y, s=0.1, color='green')
         ax.axis('off')
+
     elif selection == "Newton Fractal":
-        img = fractals[selection]["generator"](order=params["order"])
-        ax.imshow(img, extent=(-1.5,1.5,-1.5,1.5), cmap='hsv')
+        img = fractals[selection]["generator"](params["order"])
+        ax.imshow(img, extent=(-1.5, 1.5, -1.5, 1.5), cmap='hsv')
         ax.axis('off')
-    elif selection in ["Koch Snowflake", "Levy C Curve", "Pythagoras Tree", "Sierpinski Triangle", "Sierpinski Carpet", "Dragon Curve", "Cantor Set", "Hilbert Curve", "Peano Curve"]:
-        fractals[selection]["generator"](ax, params["order"])
+
+    elif selection in [
+        "Koch Snowflake", "Levy C Curve", "Pythagoras Tree",
+        "Sierpinski Triangle", "Sierpinski Carpet", "Dragon Curve",
+        "Cantor Set", "Hilbert Curve", "Peano Curve"
+    ]:
+        # All recursive fractals are now called with (order, ax)
+        fractals[selection]["generator"](params["order"], ax=ax)
         ax.axis('off')
+
     else:
         st.warning("Fractal not implemented yet.")
 
@@ -180,4 +198,5 @@ with center_col:
     buf.seek(0)
     st.image(buf, width=RECT_WIDTH)
     st.markdown(fractals[selection]["description"])
+st.warning("Fractal not implemented yet.")
 
