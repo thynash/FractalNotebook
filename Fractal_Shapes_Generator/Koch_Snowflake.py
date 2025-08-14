@@ -24,7 +24,6 @@ R_{\theta} =
 \end{pmatrix}
 $$
 
-
 3. Replace the original segment \([p_1, p_2]\) by four new segments:
 
 $$
@@ -47,62 +46,57 @@ $$
 
 This fractal exemplifies the beautiful interplay of simple geometric rules producing infinite complexity through recursion and self-similarity.
 """
-
-
-def generate_koch_snowflake(order, scale=10, ax=None):
+def generate_koch_snowflake(order, zoom=1.0, ax=None):
     """
-    Generate and plot Koch snowflake of a given recursive order.
-
+    Generate and plot Koch snowflake of given order, zooming by scaling the figure.
     Args:
         order (int): Recursion depth.
-        scale (float): Size of the initial equilateral triangle.
-        ax (matplotlib.axes.Axes or None): If None, a new figure and axis will be created.
-
+        zoom (float): Zoom factor that scales the fractal size (>0).
+        ax (matplotlib.axes.Axes or None): Axis to plot on. If None, creates new.
     Returns:
-        fig (matplotlib.figure.Figure): The Matplotlib figure containing the snowflake plot.
+        fig (matplotlib.figure.Figure): The matplotlib figure object.
     """
+    BASE_SCALE = 10  # Fixed size; zoom multiplies this
+
     def koch_curve(p1, p2, order):
         if order == 0:
             return [tuple(p1), tuple(p2)]
-        p1 = np.array(p1)
-        p2 = np.array(p2)
+        p1, p2 = np.array(p1), np.array(p2)
         delta = p2 - p1
         pA = p1 + delta / 3
         pC = p1 + 2 * delta / 3
-        angle = np.pi / 3  # 60 degrees
-        rotation_matrix = np.array([[np.cos(angle), -np.sin(angle)], [np.sin(angle), np.cos(angle)]])
-        pB = pA + np.dot(rotation_matrix, pC - pA)
+        angle = np.pi / 3
+        rot = np.array([
+            [np.cos(angle), -np.sin(angle)],
+            [np.sin(angle), np.cos(angle)]
+        ])
+        pB = pA + np.dot(rot, pC - pA)
         return (
-            koch_curve(p1, pA, order - 1)[:-1] +
-            koch_curve(pA, pB, order - 1)[:-1] +
-            koch_curve(pB, pC, order - 1)[:-1] +
-            koch_curve(pC, p2, order - 1)
+            koch_curve(p1, pA, order-1)[:-1] +
+            koch_curve(pA, pB, order-1)[:-1] +
+            koch_curve(pB, pC, order-1)[:-1] +
+            koch_curve(pC, p2, order-1)
         )
 
-    # Define vertices of the initial equilateral triangle
-    initial_points = [
+    scale = BASE_SCALE * zoom
+    initial_pts = [
         np.array([0, 0]),
         np.array([scale, 0]),
-        np.array([scale / 2, scale * np.sin(np.pi / 3)]),
-        np.array([0, 0])  # Closing the triangle
+        np.array([scale/2, scale*np.sin(np.pi/3)]),
+        np.array([0, 0])
     ]
-
-    snowflake_points = []
+    points = []
     for i in range(3):
-        snowflake_points.extend(koch_curve(initial_points[i], initial_points[i + 1], order)[:-1])
-    if snowflake_points:
-        snowflake_points.append(snowflake_points[0])  # Ensure closure
-
-    x, y = zip(*snowflake_points)
-
+        points.extend(koch_curve(initial_pts[i], initial_pts[i+1], order)[:-1])
+    if points:
+        points.append(points[0])
+    x, y = zip(*points)
     if ax is None:
         fig, ax = plt.subplots(figsize=(8, 8))
     else:
         fig = ax.figure
-
     ax.fill(x, y, 'cyan', edgecolor='blue', linewidth=0.5)
     ax.axis('equal')
     ax.axis('off')
-
     return fig
 
